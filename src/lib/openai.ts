@@ -1,22 +1,32 @@
 import OpenAI from 'openai';
 
-const globalForOpenAI = globalThis as unknown as {
-  openai: OpenAI | undefined;
-};
+/**
+ * Get the OpenAI client lazily — only creates when needed, not at module load.
+ * This prevents build-time failures when OPENAI_API_KEY is not set.
+ */
+let _openai: OpenAI | null = null;
+
+export function getOpenAI(): OpenAI {
+  if (!_openai) {
+    if (!process.env.OPENAI_API_KEY) {
+      throw new Error(
+        'OPENAI_API_KEY environment variable is not set. Add it to your .env file.'
+      );
+    }
+    _openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  }
+  return _openai;
+}
 
 /**
- * OpenAI client singleton.
- * Reuses the same instance across hot-reloads in development.
+ * Convenience export — use getOpenAI() in route handlers and server actions.
+ * Do NOT call this at module level — it will throw if the key is missing.
  */
-export const openai =
-  globalForOpenAI.openai ??
-  new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
-
-if (process.env.NODE_ENV !== 'production') {
-  globalForOpenAI.openai = openai;
-}
+export const openai = {
+  get chat() {
+    return getOpenAI().chat;
+  },
+};
 
 /**
  * Default model to use for chat and summarisation.

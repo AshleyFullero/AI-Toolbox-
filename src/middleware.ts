@@ -1,27 +1,38 @@
-import { auth } from '@/lib/auth';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 /**
- * Middleware to protect dashboard routes.
- * Unauthenticated users are redirected to the login page.
+ * Lightweight middleware for route protection.
+ *
+ * We use cookie-based session detection instead of importing auth() to avoid
+ * pulling bcryptjs (Node.js-only) into the Edge Runtime. The heavy auth
+ * validation is performed in each protected server component via auth().
+ *
+ * NextAuth.js v5 with database sessions stores a session token cookie.
+ * The cookie name follows the pattern: authjs.session-token (dev) or
+ * __Secure-authjs.session-token (prod).
  */
-export async function middleware(request: NextRequest) {
-  const session = await auth();
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Protected routes
   const isProtectedRoute = pathname.startsWith('/dashboard');
-  const isAuthRoute = pathname.startsWith('/login') || pathname.startsWith('/register');
+  const isAuthRoute =
+    pathname.startsWith('/login') || pathname.startsWith('/register');
 
-  if (isProtectedRoute && !session) {
+  // Check for session cookie (NextAuth v5 database session token)
+  const sessionToken =
+    request.cookies.get('authjs.session-token')?.value ||
+    request.cookies.get('__Secure-authjs.session-token')?.value;
+
+  const isAuthenticated = Boolean(sessionToken);
+
+  if (isProtectedRoute && !isAuthenticated) {
     const loginUrl = new URL('/login', request.url);
     loginUrl.searchParams.set('callbackUrl', pathname);
     return NextResponse.redirect(loginUrl);
   }
 
-  // Redirect authenticated users away from auth pages
-  if (isAuthRoute && session) {
+  if (isAuthRoute && isAuthenticated) {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 
@@ -35,8 +46,7 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimisation)
      * - favicon.ico
-     * - Public API routes (auth is handled separately)
-     * - Public files (images, etc.)
+     * - Public image files
      */
     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],

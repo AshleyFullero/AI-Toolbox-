@@ -2,6 +2,9 @@ import { auth } from '@/lib/auth';
 import { openai, SUMMARISE_SYSTEM_PROMPT } from '@/lib/openai';
 import { z } from 'zod';
 
+// Force Node.js runtime — auth uses bcryptjs (Node-only)
+export const runtime = 'nodejs';
+
 const requestSchema = z.object({
   text: z.string().min(10, 'Text must be at least 10 characters').max(10000, 'Text must be under 10,000 characters'),
   style: z.enum(['bullet', 'paragraph', 'tldr']).default('bullet'),

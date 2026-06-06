@@ -4,6 +4,9 @@ import { auth } from '@/lib/auth';
 import { CHAT_SYSTEM_PROMPT } from '@/lib/openai';
 import { z } from 'zod';
 
+// Force Node.js runtime — auth + OpenAI use Node-only APIs
+export const runtime = 'nodejs';
+
 // Allow streaming responses up to 60 seconds
 export const maxDuration = 60;
 

@@ -5,6 +5,10 @@ import { Providers } from '@/components/Providers';
 import { Navbar } from '@/components/Navbar';
 import { Toaster } from '@/components/ui/toaster';
 
+// Ensure all layout-wrapped pages are dynamically rendered
+// (required because Providers includes session/theme context)
+export const dynamic = 'force-dynamic';
+
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',

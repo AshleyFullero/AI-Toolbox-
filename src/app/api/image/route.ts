@@ -3,6 +3,9 @@ import { replicate, DEFAULT_IMAGE_PARAMS } from '@/lib/replicate';
 import { db } from '@/lib/db';
 import { z } from 'zod';
 
+// Force Node.js runtime — Replicate, Prisma, and auth use Node-only APIs
+export const runtime = 'nodejs';
+
 const requestSchema = z.object({
   prompt: z
     .string()

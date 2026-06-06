@@ -1,7 +1,7 @@
 /**
  * ChatWindow Component Tests
  *
- * These are skeleton tests demonstrating the testing approach.
+ * These tests render the ChatWindow and verify key UI states.
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
@@ -17,8 +17,8 @@ vi.mock('next-auth/react', () => ({
   })),
 }));
 
-// Mock the Vercel AI SDK useChat hook
-const mockUseChat = vi.fn(() => ({
+// Mock useChatStream — the hook the component actually uses
+const mockUseChatStream = vi.fn(() => ({
   messages: [],
   input: '',
   handleInputChange: vi.fn(),
@@ -27,13 +27,13 @@ const mockUseChat = vi.fn(() => ({
   error: null,
   stop: vi.fn(),
   reload: vi.fn(),
-  setMessages: vi.fn(),
+  clearMessages: vi.fn(),
+  sendMessage: vi.fn(),
   setInput: vi.fn(),
-  append: vi.fn(),
 }));
 
-vi.mock('ai/react', () => ({
-  useChat: () => mockUseChat(),
+vi.mock('@/hooks/useChatStream', () => ({
+  useChatStream: () => mockUseChatStream(),
 }));
 
 // Mock useToast
@@ -67,11 +67,13 @@ describe('ChatWindow', () => {
 
   it('shows the GPT-4o-mini status indicator', () => {
     render(<ChatWindow />);
-    expect(screen.getByText(/GPT-4o-mini/i)).toBeInTheDocument();
+    // Use getAllByText since "GPT-4o-mini" may appear in multiple spans/elements
+    const matches = screen.getAllByText(/GPT-4o-mini/i);
+    expect(matches.length).toBeGreaterThan(0);
   });
 
   it('renders with messages when provided', () => {
-    mockUseChat.mockReturnValueOnce({
+    mockUseChatStream.mockReturnValueOnce({
       messages: [
         { id: '1', role: 'user' as const, content: 'Hello!', createdAt: new Date() },
         { id: '2', role: 'assistant' as const, content: 'Hi there! How can I help?', createdAt: new Date() },
@@ -83,9 +85,9 @@ describe('ChatWindow', () => {
       error: null,
       stop: vi.fn(),
       reload: vi.fn(),
-      setMessages: vi.fn(),
+      clearMessages: vi.fn(),
+      sendMessage: vi.fn(),
       setInput: vi.fn(),
-      append: vi.fn(),
     });
 
     render(<ChatWindow />);
@@ -95,7 +97,7 @@ describe('ChatWindow', () => {
   });
 
   it('shows stop button when isLoading is true', () => {
-    mockUseChat.mockReturnValueOnce({
+    mockUseChatStream.mockReturnValueOnce({
       messages: [{ id: '1', role: 'user' as const, content: 'Test', createdAt: new Date() }],
       input: '',
       handleInputChange: vi.fn(),
@@ -104,9 +106,9 @@ describe('ChatWindow', () => {
       error: null,
       stop: vi.fn(),
       reload: vi.fn(),
-      setMessages: vi.fn(),
+      clearMessages: vi.fn(),
+      sendMessage: vi.fn(),
       setInput: vi.fn(),
-      append: vi.fn(),
     });
 
     render(<ChatWindow />);

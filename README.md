@@ -1,6 +1,6 @@
 # AI Toolbox 🤖
 
-> A production-ready web platform offering multiple AI utilities — chat, summarisation, image generation, and code explanation — through a clean, responsive dashboard.
+> A production-ready web platform featuring a comprehensive suite of AI utilities: interactive chat, text summarization, image generation, and intelligent code explanation, accessible via a streamlined, responsive dashboard.
 
 [![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://typescriptlang.org)

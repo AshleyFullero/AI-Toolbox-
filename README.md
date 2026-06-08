@@ -3,7 +3,7 @@
 # AI Toolbox
 
 **A production-ready, full-stack AI platform built with Next.js 14 App Router.**  
-Chat with GPT-4o-mini, summarise documents, generate images with Stable Diffusion XL, and manage your account — all from a single, polished dashboard.
+Chat with GPT-4o-mini, summarise documents, generate images with Stable Diffusion XL, and manage your account  all from a single, polished dashboard.
 
 <br />
 

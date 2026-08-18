@@ -41,10 +41,10 @@ Chat with GPT-4o-mini, summarise documents, generate images with Stable Diffusio
 AI Toolbox is a multi-tool AI platform designed as a showcase of modern, production-grade Next.js development patterns. It integrates multiple AI providers behind a unified, authenticated dashboard — demonstrating real-world patterns for streaming responses, image generation pipelines, database-backed sessions, and subscription management.
 
 **Built to be:**
-- 🔒 **Secure** — All AI routes are authenticated server-side; middleware guards every dashboard path at the Edge
-- 🚀 **Production-ready** — Standalone Docker build, PostgreSQL-backed sessions, Stripe-ready subscription model
-- 🧱 **Maintainable** — Strict TypeScript, Zod request validation at every API boundary, co-located route handlers
-- 📱 **Responsive** — Mobile-first layout with a sticky navbar, dark/light theme, and fluid component design
+- **Secure** — All AI routes are authenticated server-side; middleware guards every dashboard path at the Edge
+- **Production-ready** — Standalone Docker build, PostgreSQL-backed sessions, Stripe-ready subscription model
+- **Maintainable** — Strict TypeScript, Zod request validation at every API boundary, co-located route handlers
+- **Responsive** — Mobile-first layout with a sticky navbar, dark/light theme, and fluid component design
 
 ---
 
@@ -52,14 +52,14 @@ AI Toolbox is a multi-tool AI platform designed as a showcase of modern, product
 
 | Feature | Description |
 |---|---|
-| 🗣️ **AI Chat** | Streaming conversations with `gpt-4o-mini` via the Vercel AI SDK. Supports full message history within a session. |
-| 📝 **AI Summarisation** | Condense any text (up to 10,000 chars) into bullet points, prose paragraphs, or a TL;DR — user's choice. |
-| 🖼️ **Image Generation** | Text-to-image via Stable Diffusion XL on Replicate. Configurable resolution & inference steps. Saves history per user. |
-| 🔐 **Authentication** | Email/password credentials + Google and GitHub OAuth, all via NextAuth.js v5 with a Prisma database adapter. |
-| 👤 **User Profiles** | Avatar, display name, and account management. |
-| 💳 **Subscription Tiers** | Stripe integration scaffold with `FREE`, `PRO`, and `ENTERPRISE` plan enums; auto-provisioned on sign-up. |
-| 🌗 **Theme Switching** | System-aware dark/light mode with manual toggle, persisted via cookie using `next-themes`. |
-| 🛡️ **Route Protection** | Edge middleware detects session cookies — no heavy imports, no latency. Server components re-validate with `auth()`. |
+| **AI Chat** | Streaming conversations with `gpt-4o-mini` via the Vercel AI SDK. Supports full message history within a session. |
+| **AI Summarisation** | Condense any text (up to 10,000 chars) into bullet points, prose paragraphs, or a TL;DR — user's choice. |
+| **Image Generation** | Text-to-image via Stable Diffusion XL on Replicate. Configurable resolution & inference steps. Saves history per user. |
+| **Authentication** | Email/password credentials + Google and GitHub OAuth, all via NextAuth.js v5 with a Prisma database adapter. |
+| **User Profiles** | Avatar, display name, and account management. |
+| **Subscription Tiers** | Stripe integration scaffold with `FREE`, `PRO`, and `ENTERPRISE` plan enums; auto-provisioned on sign-up. |
+| **Theme Switching** | System-aware dark/light mode with manual toggle, persisted via cookie using `next-themes`. |
+| **Route Protection** | Edge middleware detects session cookies — no heavy imports, no latency. Server components re-validate with `auth()`. |
 
 ---
 
